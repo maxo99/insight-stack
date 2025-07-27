@@ -1,0 +1,9 @@
+**/.env
+duckdns/
+swag/
+/docker_data
+**/__pycache__
+*.pyc
+*.pyo
+*.pyd
+*/**.egg-info/*

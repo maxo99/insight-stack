@@ -1,0 +1,121 @@
+
+services:
+  grafana:
+    container_name: grafana
+    image: 'grafana/grafana:latest'
+    environment:
+      GF_SERVER_DEFAULT_TIMEZONE: ${TZ}
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+    - protocol: tcp
+      published: 3000
+      target: 3000
+    restart: unless-stopped
+    healthcheck:
+      test: "curl -f http://grafana:3000/api/health"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker_data/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./docker_data/grafana/datasources:/etc/grafana/provisioning/datasources
+      # - ./docker_data/grafana_data/datasources:/etc/grafana/provisioning/datasources
+      # - ./docker_data/grafana_data/dashboards:/etc/grafana/provisioning/dashboards
+  maxo99-influxdb:
+    container_name: maxo99-influxdb
+    environment:
+      # TZ: ${TZ}
+      # INFLUXDB_TZ: ${TZ}
+      INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
+      INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
+      INFLUXDB_DATA_ENGINE: tsi1
+      INFLUXDB_DB: ${INFLUXDB_DB_NAME}
+      INFLUXDB_HTTP_LOG_ENABLED: "true"
+      INFLUXDB_LOGGING_FORMAT: json
+      INFLUXDB_LOGGING_LEVEL: DEBUG
+      INFLUXDB_MONITOR_STORE_DATABASE: _internal
+      INFLUXDB_MONITOR_STORE_ENABLED: "true"
+      INFLUXDB_REPORTING_DISABLED: "true"
+      INFLUXDB_USER: ${INFLUXDB_USER}
+      INFLUXDB_USER_PASSWORD: ${INFLUXDB_USER_PASSWORD}
+    image: influxdb:1.8
+    ports:
+    - protocol: tcp
+      published: 8086
+      target: 8086
+    restart: always
+    healthcheck:
+      test: "curl -f http://maxo99-influxdb:8086/health"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    volumes:
+    - ./docker_data/influxdb:/var/lib/influxdb
+    - ./influxdb/influx_init.iql:/docker-entrypoint-initdb.d/influx_init.iql
+    # - ./influxdb-data:/var/lib/influxdb:rw
+  maxo99-weatherflow-collector:
+    container_name: maxo99-weatherflow-collector
+    environment:
+      USER_TIMEZONE: ${TZ}
+      WEATHERFLOW_COLLECTOR_HOST_HOSTNAME: maxo99-weatherflow-collector
+      WEATHERFLOW_COLLECTOR_LOGGER_FILE_ENABLED: "true"
+      WEATHERFLOW_COLLECTOR_LOG_DIRECTORY: /var/log/weatherflow-collector
+      WEATHERFLOW_COLLECTOR_DEBUG: "true"
+      WEATHERFLOW_COLLECTOR_DEBUG_CURL: "true"
+      WEATHERFLOW_COLLECTOR_DISABLE_HEALTH_CHECK: "false"
+      WEATHERFLOW_COLLECTOR_DISABLE_HOST_PERFORMANCE: "false"
+      WEATHERFLOW_COLLECTOR_DISABLE_LOCAL_UDP: "false"
+      WEATHERFLOW_COLLECTOR_DISABLE_REMOTE_FORECAST: "false"
+      WEATHERFLOW_COLLECTOR_DISABLE_REMOTE_REST: "true"
+      WEATHERFLOW_COLLECTOR_DISABLE_REMOTE_SOCKET: "false"
+      WEATHERFLOW_COLLECTOR_HEALTHCHECK: "true"
+      WEATHERFLOW_COLLECTOR_VINEYARD_VANTAGE_HANDLER_ENABLED: "false"
+      # Environment variables for InfluxDB connection
+      WEATHERFLOW_COLLECTOR_INFLUXDB_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
+      WEATHERFLOW_COLLECTOR_INFLUXDB_URL: http://maxo99-influxdb:8086
+      WEATHERFLOW_COLLECTOR_INFLUXDB_USERNAME: ${INFLUXDB_USER}
+      WEATHERFLOW_COLLECTOR_INFLUXDB_DATABASE: ${INFLUXDB_DB_NAME}
+      WEATHERFLOW_COLLECTOR_API_TOKEN: ${WEATHERFLOW_COLLECTOR_TOKEN}
+      WEATHERFLOW_COLLECTOR_INFLUXDB_ORG: ${INFLUXDB_ORG}
+      WEATHERFLOW_COLLECTOR_INFLUXDB_BUCKET: weatherflow
+      WEATHERFLOW_COLLECTOR_INFLUXDB_TOKEN: ${INFLUXDB_ADMIN_PASSWORD}
+      WEATHERFLOW_COLLECTOR_EXPORT_COLLECTOR_STALE_SEGMENT_DAYS: 1
+      WEATHERFLOW_COLLECTOR_COLLECTOR_TYPE: primary
+      WEATHERFLOW_COLLECTOR_TZ: ${TZ}
+    restart: always
+    depends_on:
+      - "maxo99-influxdb"
+    image: maxo99/weatherflow-collector:latest
+    volumes:
+      - ./docker_data/weatherflow-collector/logs:/var/log/weatherflow-collector
+      - ./docker_data/weatherflow-collector/config:/etc/weatherflow-collector
+      - ./docker_data/weatherflow-collector/data:/var/lib/weatherflow-collector
+    ports:
+    - protocol: udp
+      published: 50222
+      target: 50222
+
+  maxo99-garmin-fetch-data:
+    restart: unless-stopped
+    image: maxo99/garmin-fetch-data:latest
+    container_name: maxo99-garmin-fetch-data
+    depends_on:
+      - maxo99-influxdb
+    volumes:
+      - ./docker_data/garminconnect/tokens:/home/appuser/.garminconnect # (persistent tokens storage - garminconnect-tokens folder must be owned by 1000:1000) - should be './garminconnect-tokens:/root/.garminconnect' instead if you are using using user: root
+    environment:
+      - INFLUXDB_HOST=maxo99-influxdb
+      - INFLUXDB_PORT=8086 
+      - INFLUXDB_USERNAME=${INFLUXDB_USER}
+      - INFLUXDB_PASSWORD=${INFLUXDB_ADMIN_PASSWORD}  
+      - USER_TIMEZONE=${TZ}
+      - INFLUXDB_DATABASE=GarminStats
+      - GARMINCONNECT_EMAIL=${GARMINCONNECT_EMAIL}
+      - GARMINCONNECT_BASE64_PASSWORD=${GARMINCONNECT_BASE64_PASSWORD}
+
+volumes:
+  grafana_data:
