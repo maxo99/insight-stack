@@ -1,0 +1,6 @@
+[submodule "weatherflow-collector"]
+	path = weatherflow-collector
+	url = https://github.com/maxo99/weatherflow-collector.git
+[submodule "garmin-grafana"]
+	path = garmin-grafana
+	url = https://github.com/maxo99/garmin-grafana.git
