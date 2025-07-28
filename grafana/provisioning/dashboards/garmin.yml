@@ -1,0 +1,14 @@
+apiVersion: 1
+providers:
+  - name: 'garmin'
+    orgId: 1
+    folder: 'garmin'
+    folderUid: '1071'
+    type: file
+    disableDeletion: true
+    editable: true
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/garmin
+      # foldersFromFilesStructure: true

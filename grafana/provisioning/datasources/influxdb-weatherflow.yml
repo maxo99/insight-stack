@@ -1,0 +1,9 @@
+apiVersion: 1
+datasources: 
+  - name: InfluxDB - weatherflow
+    type: influxdb
+    url: "http://insightstack-influxdb:8086/"
+    basicAuth: false
+    editable: true
+    # orgId: 1
+    database: weatherflow

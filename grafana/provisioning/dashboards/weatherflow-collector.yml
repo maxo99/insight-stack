@@ -1,0 +1,16 @@
+apiVersion: 1
+
+providers:
+- name: 'weatherflow_collector_dashboards'
+  orgId: 1
+  folder: 'WeatherFlow Collector'
+  folderUid: '1069'
+  type: file
+  disableDeletion: true
+  editable: true
+  updateIntervalSeconds: 60
+  allowUiUpdates: true
+  options:
+      path: /var/lib/grafana/dashboards/weatherflow-collector
+    # foldersFromFilesStructure: true
+    # https://grafana.com/docs/grafana/latest/administration/provisioning/

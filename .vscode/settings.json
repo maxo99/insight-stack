@@ -10,6 +10,10 @@
 		"**/__pycache__": true,
 		"**/*.pyc": true,
 		"**/*.egg-info": true,
+        "**/*k8s*": true,
+        // "**/*.yml": true,
+        // "**/*.yaml": true,
+        // "**/*.json": true,
 	},
     "files.associations": {
         "justfile": "makefile",
