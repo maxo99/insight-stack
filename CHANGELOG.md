@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v0.2.0 (2025-07-28)
+
+### Chores
+
+- Repo settings cleanup
+  ([`8228473`](https://github.com/maxo99/insight-stack/commit/82284739ec3dc7fc1902209a77fca9a3736cb28c))
+
+### Features
+
+- Combined dashboard v1
+  ([`c1f4d52`](https://github.com/maxo99/insight-stack/commit/c1f4d52dbc45aac941f6883818a81216b24b1665))
+
+
 ## v0.1.0 (2025-07-28)
 
 ### Features
