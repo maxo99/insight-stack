@@ -1,19 +1,9 @@
 {
-	"workbench.colorCustomizations": {
-        "window.titleBarStyle": "custom",
-		"window.activeBorder": "#970606",
-		// "sideBar.background": "#444444"
-        "titleBar.activeBackground": "#130546", // Change this color to your desired color
-        "titleBar.inactiveBackground": "#FF0000" // Change this color to your desired color
-	},
 	"files.exclude": {
 		"**/__pycache__": true,
 		"**/*.pyc": true,
 		"**/*.egg-info": true,
-        "**/*k8s*": true,
-        // "**/*.yml": true,
-        // "**/*.yaml": true,
-        // "**/*.json": true,
+        "**/*k8s*": true
 	},
     "files.associations": {
         "justfile": "makefile",
