@@ -100,9 +100,9 @@ update-dashboards:
 
 save-dashboards:
 	@echo "Saving dashboards from running container..."
-	docker cp {{GRAFANA_CONTAINER}}:/var/lib/grafana/dashboards/mine {{GRAFANA_SRC}}/dashboards/mine
-	docker cp {{GRAFANA_CONTAINER}}:/var/lib/grafana/dashboards/garmin {{GRAFANA_SRC}}/dashboards/garmin
-	docker cp {{GRAFANA_CONTAINER}}:/var/lib/grafana/dashboards/weatherflow-collector {{GRAFANA_SRC}}/dashboards/weatherflow-collector
+	docker cp {{GRAFANA_CONTAINER}}:/var/lib/grafana/dashboards/mine {{GRAFANA_SRC}}/dashboards
+	docker cp {{GRAFANA_CONTAINER}}:/var/lib/grafana/dashboards/garmin {{GRAFANA_SRC}}/dashboards
+	docker cp {{GRAFANA_CONTAINER}}:/var/lib/grafana/dashboards/weatherflow-collector {{GRAFANA_SRC}}/dashboards
 
 clean-docker-data:
 	@echo "Cleaning up Docker data directories..."
