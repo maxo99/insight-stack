@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.1.0 (2025-07-28)
+
+### Features
+
+- Insightstack repo initial build
+  ([`6a7e4de`](https://github.com/maxo99/insight-stack/commit/6a7e4de54e04b260acea52c530e013ab4610f2cd))
+
+
 ## v0.0.0 (2025-07-27)
 
 ### Build System
