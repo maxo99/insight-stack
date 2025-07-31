@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v0.3.0 (2025-07-31)
+
+### Documentation
+
+- Adding stack diagram and updating readme with project description
+  ([`d559770`](https://github.com/maxo99/insight-stack/commit/d559770807ecc26b26761dd53d8d06091525271a))
+
+### Features
+
+- Updating default dashboard to common interval + setting new default dashboard
+  ([`d68bee7`](https://github.com/maxo99/insight-stack/commit/d68bee72efcaedf5de3cd044471cc0478f5c5cda))
+
+
 ## v0.2.0 (2025-07-28)
 
 ### Chores
