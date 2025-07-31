@@ -15,7 +15,7 @@ services:
       GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
       GF_USERS_ALLOW_SIGN_UP: false
       GF_ANALYTICS_REPORTING_ENABLED: FALSE
-      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/weatherflow_collector/weatherflow_collector-historical_local-udp-influxdb.json
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/mine/maxo99-v1.json
       # GF_PATHS_PLUGINS: /var/lib/grafana-plugins
     ports:
     - protocol: tcp
