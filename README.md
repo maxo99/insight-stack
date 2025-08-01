@@ -1,6 +1,6 @@
 # insight-stack
-Stack of self-hosted utilities used for ingesting and evaluating personal timeseries data.
-
+My stack of self-hosted data services for ingesting, processing, and presenting real-time data insights via Grafana dashboards.
+ 
 ## Credits
 This repo is built from public repositories forked and modified to suit my needs. The original authors are credited below:
 - [arpanghosh8453/garmin-grafana](https://github.com/arpanghosh8453/garmin-grafana)
